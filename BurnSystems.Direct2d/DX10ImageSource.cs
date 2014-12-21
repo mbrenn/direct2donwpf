@@ -99,15 +99,21 @@ namespace BurnSystems.Direct2d
                 return;
 
             if (!IsShareable(renderTarget))
+            {
                 throw new ArgumentException("Texture must be created with ResourceOptionFlags.Shared");
+            }
 
             Format format = DX10ImageSource.TranslateFormat(renderTarget);
             if (format == Format.Unknown)
+            {
                 throw new ArgumentException("Texture format is not compatible with OpenSharedResource");
+            }
 
             IntPtr handle = GetSharedHandle(renderTarget);
             if (handle == IntPtr.Zero)
+            {
                 throw new ArgumentNullException("Handle");
+            }
 
             this.RenderTarget = new Texture(DX10ImageSource.D3DDevice, renderTarget.Description.Width, renderTarget.Description.Height, 1, Usage.RenderTarget, format, Pool.Default, ref handle);
             using (Surface surface = this.RenderTarget.GetSurfaceLevel(0))
@@ -121,11 +127,13 @@ namespace BurnSystems.Direct2d
         private void StartD3D()
         {
             if (DX10ImageSource.ActiveClients != 0)
+            {
                 return;
+            }
 
-            D3DContext = new Direct3DEx();
+            DX10ImageSource.D3DContext = new Direct3DEx();
 
-            PresentParameters presentparams = new PresentParameters();
+            var presentparams = new PresentParameters();
             presentparams.Windowed = true;
             presentparams.SwapEffect = SwapEffect.Discard;
             presentparams.DeviceWindowHandle = GetDesktopWindow();
@@ -137,7 +145,9 @@ namespace BurnSystems.Direct2d
         private void EndD3D()
         {
             if (DX10ImageSource.ActiveClients != 0)
+            {
                 return;
+            }
 
             Disposer.SafeDispose(ref this.RenderTarget);
             Disposer.SafeDispose(ref DX10ImageSource.D3DDevice);
@@ -146,8 +156,8 @@ namespace BurnSystems.Direct2d
 
         private IntPtr GetSharedHandle(SharpDX.Direct3D10.Texture2D Texture)
         {
-            SharpDX.DXGI.Resource resource = Texture.QueryInterface<SharpDX.DXGI.Resource>();
-            IntPtr result = resource.SharedHandle;
+            var resource = Texture.QueryInterface<SharpDX.DXGI.Resource>();
+            var result = resource.SharedHandle;
             resource.Dispose();
             return result;
         }

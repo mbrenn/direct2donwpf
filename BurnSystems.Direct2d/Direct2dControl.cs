@@ -30,9 +30,8 @@ using Device = SharpDX.Direct3D10.Device1;
 using FeatureLevel = SharpDX.Direct3D10.FeatureLevel;
 
 namespace BurnSystems.Direct2d
-{
-
-    public class DPFCanvas : System.Windows.Controls.Image
+{    
+    public class Direct2dControl : System.Windows.Controls.Image
     {
         private Device Device;
         private Texture2D RenderTarget;
@@ -41,8 +40,7 @@ namespace BurnSystems.Direct2d
         private RenderTarget m_d2dRenderTarget;
         private SharpDX.Direct2D1.Factory m_d2dFactory;
 
-
-        public DPFCanvas()
+        public Direct2dControl()
         {
             this.RenderTimer = new Stopwatch();
             this.Loaded += this.Window_Loaded;
@@ -52,8 +50,10 @@ namespace BurnSystems.Direct2d
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DPFCanvas.IsInDesignMode)
+            if (Direct2dControl.IsInDesignMode)
+            {
                 return;
+            }
 
             this.StartD3D();
             this.StartRendering();
@@ -61,8 +61,10 @@ namespace BurnSystems.Direct2d
 
         private void Window_Closing(object sender, RoutedEventArgs e)
         {
-            if (DPFCanvas.IsInDesignMode)
+            if (Direct2dControl.IsInDesignMode)
+            {
                 return;
+            }
 
             this.StopRendering();
             this.EndD3D();
@@ -100,10 +102,10 @@ namespace BurnSystems.Direct2d
             Disposer.SafeDispose(ref this.m_d2dFactory);
             Disposer.SafeDispose(ref this.RenderTarget);
 
-            int width = Math.Max((int)this.ActualWidth, 100);
-            int height = Math.Max((int)this.ActualHeight, 100);
+            var width = Math.Max((int)this.ActualWidth, 100);
+            var height = Math.Max((int)this.ActualHeight, 100);
 
-            Texture2DDescription colordesc = new Texture2DDescription
+            var colordesc = new Texture2DDescription
             {
                 BindFlags = BindFlags.RenderTarget | BindFlags.ShaderResource,
                 Format = Format.B8G8R8A8_UNorm,
@@ -119,8 +121,7 @@ namespace BurnSystems.Direct2d
 
             this.RenderTarget = new Texture2D(this.Device, colordesc);
 
-            Surface surface = this.RenderTarget.QueryInterface<Surface>();
-
+            var surface = this.RenderTarget.QueryInterface<Surface>();
 
             m_d2dFactory = new SharpDX.Direct2D1.Factory();
             var rtp = new RenderTargetProperties(new PixelFormat(Format.Unknown, AlphaMode.Premultiplied));
@@ -132,7 +133,9 @@ namespace BurnSystems.Direct2d
         private void StartRendering()
         {
             if (this.RenderTimer.IsRunning)
+            {
                 return;
+            }
 
             System.Windows.Media.CompositionTarget.Rendering += OnRendering;
             this.RenderTimer.Start();
@@ -141,7 +144,9 @@ namespace BurnSystems.Direct2d
         private void StopRendering()
         {
             if (!this.RenderTimer.IsRunning)
+            {
                 return;
+            }
 
             System.Windows.Media.CompositionTarget.Rendering -= OnRendering;
             this.RenderTimer.Stop();
@@ -150,7 +155,9 @@ namespace BurnSystems.Direct2d
         private void OnRendering(object sender, EventArgs e)
         {
             if (!this.RenderTimer.IsRunning)
+            {
                 return;
+            }
 
             this.Render();
             this.D3DSurface.InvalidateD3DImage();
@@ -164,16 +171,20 @@ namespace BurnSystems.Direct2d
 
         private void Render()
         {
-            SharpDX.Direct3D10.Device device = this.Device;
+            var device = this.Device;
             if (device == null)
+            {
                 return;
+            }
 
-            Texture2D renderTarget = this.RenderTarget;
+            var renderTarget = this.RenderTarget;
             if (renderTarget == null)
+            {
                 return;
+            }
 
-            int targetWidth = renderTarget.Description.Width;
-            int targetHeight = renderTarget.Description.Height;
+            var targetWidth = renderTarget.Description.Width;
+            var targetHeight = renderTarget.Description.Height;
 
             device.Rasterizer.SetViewports(new Viewport(0, 0, targetWidth, targetHeight, 0.0f, 1.0f));
 
@@ -213,9 +224,13 @@ namespace BurnSystems.Direct2d
             // this fires when the screensaver kicks in, the machine goes into sleep or hibernate
             // and any other catastrophic losses of the d3d device from WPF's point of view
             if (this.D3DSurface.IsFrontBufferAvailable)
+            {
                 this.StartRendering();
+            }
             else
+            {
                 this.StopRendering();
+            }
         }
 
         /// <summary>
@@ -226,8 +241,8 @@ namespace BurnSystems.Direct2d
         {
             get
             {
-                DependencyProperty prop = DesignerProperties.IsInDesignModeProperty;
-                bool isDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
+                var prop = DesignerProperties.IsInDesignModeProperty;
+                var isDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
                 return isDesignMode;
             }
         }
