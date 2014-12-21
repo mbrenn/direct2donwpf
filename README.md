@@ -7,6 +7,10 @@ The library in the example project can be used as a starting point to derive you
 
 Everything in this project is free for use, but I do not give warranty of any kind.
 
+Thanks to the author in SharpDX-Forum [1] and thanks to the SharpDX team, who privides the glue between DirectX and .Net. 
+
+[1] http://sharpdx.org/forum/5-api-usage/567-wpf-and-direct2d
+
 ---
 
 
