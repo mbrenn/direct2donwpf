@@ -31,7 +31,7 @@ using FeatureLevel = SharpDX.Direct3D10.FeatureLevel;
 
 namespace BurnSystems.Direct2d
 {    
-    public class Direct2dControl : System.Windows.Controls.Image
+    public abstract class Direct2dControl : System.Windows.Controls.Image
     {
         private Device Device;
         private Texture2D RenderTarget;
@@ -159,7 +159,7 @@ namespace BurnSystems.Direct2d
                 return;
             }
 
-            this.Render();
+            this.PrepareAndCallRender();
             this.D3DSurface.InvalidateD3DImage();
         }
 
@@ -169,7 +169,7 @@ namespace BurnSystems.Direct2d
             base.OnRenderSizeChanged(sizeInfo);
         }
 
-        private void Render()
+        private void PrepareAndCallRender()
         {
             var device = this.Device;
             if (device == null)
@@ -188,23 +188,28 @@ namespace BurnSystems.Direct2d
 
             device.Rasterizer.SetViewports(new Viewport(0, 0, targetWidth, targetHeight, 0.0f, 1.0f));
 
-            var solidColorBrush = new SharpDX.Direct2D1.SolidColorBrush(m_d2dRenderTarget, SharpDX.Color.White);
-
+            // Does the acttual rendering
             m_d2dRenderTarget.BeginDraw();
-
-            m_d2dRenderTarget.Clear(Color.Black);
-
-            var rnd = new Random();
-            for (var n = 0; n < 5000; n++)
-            {
-                var p0 = new Vector2((float)rnd.NextDouble() * 500, (float)rnd.NextDouble() * 500);
-                var p1 = new Vector2((float)rnd.NextDouble() * 500, (float)rnd.NextDouble() * 500);
-                m_d2dRenderTarget.DrawLine(
-                    p0, p1, solidColorBrush);
-            }
-
+            this.Render(m_d2dRenderTarget);
             m_d2dRenderTarget.EndDraw();
 
+            this.ShowFramesPerSecondsOnDebug();
+
+            device.Flush();
+        }
+
+        /// <summary>
+        /// Does the actual rendering. 
+        /// BeginDraw and EndDraw are already called by the caller. 
+        /// </summary>
+        public abstract void Render(RenderTarget target);
+
+        /// <summary>
+        /// Shows the number of frames per seconds on the debug line
+        /// </summary>
+        private void ShowFramesPerSecondsOnDebug()
+        {
+            // Spits out the Frames per second
             f++;
             if ((DateTime.Now - last).TotalSeconds > 1)
             {
@@ -212,8 +217,6 @@ namespace BurnSystems.Direct2d
                 f = 0;
                 last = DateTime.Now;
             }
-
-            device.Flush();
         }
 
         private DateTime last;

@@ -1,11 +1,11 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Direct2d="clr-namespace:BurnSystems.Direct2d;assembly=BurnSystems.Direct2d" x:Class="Direct2dWPF.MainWindow"
+        xmlns:Direct2d="clr-namespace:BurnSystems.Direct2d.Example;assembly=BurnSystems.Direct2d" x:Class="Direct2dWPF.MainWindow"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Canvas Background="Red"></Canvas>
-        <Direct2d:Direct2dControl />
+        <Direct2d:RandomLinesControl />
 
     </Grid>
 </Window>
