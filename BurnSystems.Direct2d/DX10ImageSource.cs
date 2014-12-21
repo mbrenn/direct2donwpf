@@ -54,8 +54,6 @@ namespace BurnSystems.Direct2d
 
     class DX10ImageSource : D3DImage, IDisposable
     {
-        [DllImport("user32.dll", SetLastError = false)]
-        private static extern IntPtr GetDesktopWindow();
         private static int ActiveClients;
         private static Direct3DEx D3DContext;
         private static DeviceEx D3DDevice;
@@ -67,9 +65,12 @@ namespace BurnSystems.Direct2d
             DX10ImageSource.ActiveClients++;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "RenderTarget")]
         public void Dispose()
         {
             this.SetRenderTargetDX10(null);
+
+            // Here, we have our Dispose call
             Disposer.SafeDispose(ref this.RenderTarget);
 
             DX10ImageSource.ActiveClients--;
@@ -138,7 +139,7 @@ namespace BurnSystems.Direct2d
             var presentparams = new PresentParameters();
             presentparams.Windowed = true;
             presentparams.SwapEffect = SwapEffect.Discard;
-            presentparams.DeviceWindowHandle = GetDesktopWindow();
+            presentparams.DeviceWindowHandle = NativeMethods.GetDesktopWindow();
             presentparams.PresentationInterval = PresentInterval.Default;
 
             DX10ImageSource.D3DDevice = new DeviceEx(D3DContext, 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.HardwareVertexProcessing | CreateFlags.Multithreaded | CreateFlags.FpuPreserve, presentparams);

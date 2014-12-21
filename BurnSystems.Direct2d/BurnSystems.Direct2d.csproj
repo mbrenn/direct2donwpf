@@ -68,6 +68,7 @@
     <Compile Include="Disposer.cs" />
     <Compile Include="DX10ImageSource.cs" />
     <Compile Include="Example\RandomLinesControl.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
