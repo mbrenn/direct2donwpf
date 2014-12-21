@@ -7,7 +7,7 @@ The library in the example project can be used as a starting point to derive you
 
 Everything in this project is free for use, but I do not give warranty of any kind.
 
-
+---
 
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
