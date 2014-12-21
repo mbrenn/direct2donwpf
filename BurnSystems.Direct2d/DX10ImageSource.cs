@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2010-2012 SharpDX - Alexandre Mutel
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
+﻿// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -21,6 +19,9 @@
 // Original code from SlimMath project. http://code.google.com/p/slimmath/
 // Greetings to SlimDX Group. Original code published with the following license:
 // -----------------------------------------------------------------------------
+// 
+// This file is derived from a file under the copy right above. 
+// Copyright was given by 2010-2012 SharpDX - Alexandre Mutel
 /*
 * Copyright (c) 2007-2011 SlimDX Group
 * 
@@ -42,6 +43,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
+
 namespace BurnSystems.Direct2d
 {
     using System;

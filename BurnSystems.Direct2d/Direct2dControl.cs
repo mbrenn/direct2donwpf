@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2010-2012 SharpDX - Alexandre Mutel
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
+﻿// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -17,20 +15,23 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows;
-using SharpDX;
-using SharpDX.Direct2D1;
-using SharpDX.Direct3D10;
-using SharpDX.DXGI;
-using Device = SharpDX.Direct3D10.Device1;
-using FeatureLevel = SharpDX.Direct3D10.FeatureLevel;
+// 
+// This file is derived from a file under the copy right above. 
+// Copyright was given by 2010-2012 SharpDX - Alexandre Mutel
 
 namespace BurnSystems.Direct2d
-{    
+{
+    using SharpDX;
+    using SharpDX.Direct2D1;
+    using SharpDX.Direct3D10;
+    using SharpDX.DXGI;
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Windows;
+    using Device = SharpDX.Direct3D10.Device1;
+    using FeatureLevel = SharpDX.Direct3D10.FeatureLevel;
+
     public abstract class Direct2dControl : System.Windows.Controls.Image
     {
         private Device Device;
